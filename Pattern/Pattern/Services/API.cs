@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pattern.Services
+﻿namespace Pattern.Services
 {
+	// Repository Services
+
 	public interface IAPI
 	{
-		string GetData();
+		bool Authenticate(string username, string password);
 	}
 
 	public class API : IAPI
 	{
-		public string GetData()
+		public bool Authenticate(string username, string password)
 		{
-			return "Some fake data";
+			return true;
 		}
 	}
 }

@@ -2,49 +2,55 @@
 
 namespace Pattern.Views
 {
-	public class LoginPage : ContentPage
+	public class LoginPage : TemplatePage
 	{
-		readonly IWorkflow _navigation;
+		public LoginPage(IWorkflow navigation) : base(navigation) { }
 
-		// Build UI
-		public LoginPage(IWorkflow navigation)
-		{
-			_navigation = navigation;
-			Build();
-		}
-		void Build()
+		protected override void Build()
 		{
 			Validate();
-			Content = BuildView();
+			base.Build();
 		}
 
 		void Validate()
 		{
-			_isValid = _count > 10;
+			_isValid = _username?.Length >= 8
+						&& _password?.Length >= 8;
 		}
 
 		// Reactive
-		Command IncrementCommand => new Command(async () =>
+		Command LoginCommand => new Command(async () =>
 		{
-			_count++;
 			Build();
 
 			if (_isValid)
-				await _navigation.Navigate(this, "Login", null);
+				await _navigation.Navigate(this, "Authenticated", null);
 		});
 
+		void UpdateEntry(string value)
+		{
+			_username = value;
+			Build();
+		}
+		void PasswordEntry(string value)
+		{
+			_password = value;
+			Build();
+		}
+
 		// State
-		int _count = 0;
+		string _username = null;
+		string _password = null;
 		bool _isValid = false;
 
-		View BuildView()
+		protected override View BuildView()
 		{
 			return new StackLayout()
 			{
 				Children = {
-					new Label() { Text = _count.ToString(), AutomationId="Count" },
-					new Label() { Text = _isValid.ToString() },
-					new Button() { Text = "Increment", Command=IncrementCommand }
+					new Entry() { AutomationId="UsernameEntry", Text=_username }.TextUpdated(UpdateEntry),
+					new Entry() { AutomationId="PasswordEntry", IsPassword = true, Text=_password }.TextUpdated(PasswordEntry),
+					new Button() { Text = "Login", Command=LoginCommand, AutomationId="LoginButton", IsEnabled = _isValid }
 				}
 			};
 		}

@@ -21,6 +21,5 @@ namespace Pattern
 			if (page is LoginPage && state == "Authenticated")
 				MainPage = new MainPage(this);
 		}
-
 	}
 }

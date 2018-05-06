@@ -2,22 +2,11 @@
 
 namespace Pattern.Views
 {
-	public class MainPage: ContentPage
+	public class MainPage: TemplatePage
     {
-		readonly IWorkflow _navigation;
-
-		// Build UI
-		public MainPage(IWorkflow navigation)
-		{
-			_navigation = navigation;
-			Build();
-		}
-		void Build()
-		{			
-			Content = BuildView();
-		}
-
-		View BuildView()
+		public MainPage(IWorkflow navigation) : base(navigation) { }
+		
+		protected override View BuildView()
 		{
 			return new StackLayout()
 			{
