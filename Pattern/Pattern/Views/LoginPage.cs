@@ -18,7 +18,6 @@ namespace Pattern.Views
 						&& _password?.Length >= 8;
 		}
 
-		// Reactive
 		Command LoginCommand => new Command(async () =>
 		{
 			Build();

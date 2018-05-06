@@ -22,6 +22,7 @@ namespace Pattern.Tests.Views
 
 		[Theory]
 		[InlineData("12345678", "Password", true)]
+		[InlineData("123456", "Password", false)]
 		public void Validate_Username(string username, string password, bool isValid)
 		{
 			// Valid - configuration
@@ -44,7 +45,8 @@ namespace Pattern.Tests.Views
 			usernameEntry.Text = username;
 			passwordEntry.Text = password;
 
-			// Get new UI (this is only applicable because I'm not using Frank's Immutable UI)
+			// Get new UI (this is only applicable because I'm not using ImmutableUI)
+			// Otherwise these 2 lines of code wouldn't be needed
 			view = _loginPage.Content;
 			buttonEntry = view.GetElementByName<Button>(LoginButton);
 
